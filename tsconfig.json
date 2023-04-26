@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "lib": ["ESNext", "DOM"],
+        "module": "NodeNext",
+        "target": "ESNext"
+    },
+    "ts-node": {
+        "swc": true
+    }
+}
