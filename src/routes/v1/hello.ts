@@ -9,6 +9,7 @@ export const helloRoute: FastifyPluginAsync = async (server) => {
         '/hello/:name',
         {
             schema: {
+                tags: ["Hello"],
                 params: z.object({
                     name: z.string().describe('Your name :)'),
                 }),

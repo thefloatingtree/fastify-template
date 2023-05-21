@@ -246,5 +246,34 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         format: "json",
         ...params,
       }),
+
+    /**
+     * No description
+     *
+     * @name ConversationDetail
+     * @request GET:/v1/conversation/{resourceType}/{resourceId}
+     */
+    conversationDetail: (resourceType: string, resourceId: number, params: RequestParams = {}) =>
+      this.request<
+        {
+          id: number;
+          resourceId: number;
+          resourceType: string;
+          comments: {
+            id: number;
+            body: string;
+            authorName: string;
+            conversationId: number;
+          }[];
+        },
+        {
+          error: string;
+        }
+      >({
+        path: `/v1/conversation/${resourceType}/${resourceId}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
   };
 }

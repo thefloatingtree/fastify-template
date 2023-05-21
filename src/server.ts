@@ -7,9 +7,10 @@ import {
     serializerCompiler,
     validatorCompiler,
 } from 'fastify-type-provider-zod'
-import { helloRoute } from './routes/v1/hello'
+import { prisma } from './lib/prisma'
+import { configureRoutes } from './routes'
 
-const fastify = Fastify()
+export const fastify = Fastify()
 fastify.setValidatorCompiler(validatorCompiler)
 fastify.setSerializerCompiler(serializerCompiler)
 
@@ -29,9 +30,12 @@ fastify.register(fastifySwaggerUI, {
     routePrefix: '/docs',
 })
 
-// Configure routes
+fastify.addHook('onClose', () => {
+    prisma.$disconnect()
+})
+
 fastify.after(() => {
-    fastify.register(helloRoute, { prefix: '/v1/' })
+    configureRoutes();
 })
 
 export async function run() {

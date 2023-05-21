@@ -1,0 +1,33 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator zod {
+  provider                  = "zod-prisma-types"
+  createRelationValuesTypes = true
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Conversation {
+  id           Int       @id @default(autoincrement())
+  resourceId   Int
+  resourceType String
+  comments     Comment[]
+
+  @@unique([resourceId, resourceType])
+}
+
+model Comment {
+  id             Int          @id @default(autoincrement())
+  body           String
+  authorName     String
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  conversationId Int
+}
